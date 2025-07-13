@@ -97,7 +97,7 @@ function renderCalendar(date = new Date()){
         if(eventToday.length > 0){
             const editBtn = document.createElement("button");
             editBtn.className = "overlay-btn";
-            editBtn.textContent = "Edit";
+            editBtn.textContent = " ✏️ Edit";
             editBtn.onclick = e =>{
                 e.stopPropagation();
                 openModalForEdit(eventToday);
@@ -111,4 +111,95 @@ function renderCalendar(date = new Date()){
         calendarE1.appendChild(cell);
     }
 }
+
+function openModalForAdd(dateStr){
+    document.getElementById("fromAction").value = "add";
+    document.getElementById("eventId").value = "";
+    document.getElementById("deleteEventId").value = "";
+    document.getElementById("courseName").value = "";
+    document.getElementById("instructorName").value = "";
+    document.getElementById("startDate").value = dateStr;
+    document.getElementById("endDate").value = dateStr;
+    document.getElementById("startTime").value = "09:00";
+    document.getElementById("endTime").value = "10:00";
+
+    const selector = document.getElementById("eventSelector");
+    const wrapper = document.getElementById("eventSelectorWrapper");
+
+    if(selector && wrapper){
+        selector.innerHTML = "";
+        wrapper.style.display = "none";
+    }
+
+    modalE1.style.display = "flex";
+}
+
+function openModalForEdit(eventsOnDate) {
+  document.getElementById("formAction").value = "edit";
+  modalEl.style.display = "flex";
+
+  const selector = document.getElementById("eventSelector");
+  const wrapper = document.getElementById("eventSelectorWrapper");
+
+  selector.innerHTML = "<option disabled selected>Choose event...</option>";
+
+  eventsOnDate.forEach((e) => {
+    const option = document.createElement("option");
+    option.value = JSON.stringify(e);
+    option.textContent = `${e.title} (${e.start} ➡️ ${e.end})`;
+    selector.appendChild(option);
+  });
+
+  if (eventsOnDate.length > 1) {
+    wrapper.style.display = "block";
+  } else {
+    wrapper.style.display = "none";
+  }
+
+  handleEventSelection(JSON.stringify(eventsOnDate[0]));
+}
+
+
+function handleEventSelection(eventJSON) {
+  const event = JSON.parse(eventJSON);
+
+  document.getElementById("eventId").value = event.id;
+  document.getElementById("deleteEventId").value = event.id;
+
+  const [course, instructor] = event.title.split(" - ").map((e) => e.trim());
+
+  document.getElementById("courseName").value = course || "";
+  document.getElementById("instructorName").value = instructor || "";
+  document.getElementById("startDate").value = event.start || "";
+  document.getElementById("endDate").value = event.end || "";
+  document.getElementById("startTime").value = event.start_time || "";
+  document.getElementById("endTime").value = event.end_time || "";
+}
+
+
+function closeModal() {
+  modalEl.style.display = "none";
+}
+
+
+function changeMonth(offset) {
+  currentDate.setMonth(currentDate.getMonth() + offset);
+  renderCalendar(currentDate);
+}
+
+
+function updateClock() {
+  const now = new Date();
+  const clock = document.getElementById("clock");
+  clock.textContent = [
+    now.getHours().toString().padStart(2, "0"),
+    now.getMinutes().toString().padStart(2, "0"),
+    now.getSeconds().toString().padStart(2, "0"),
+  ].join(":");
+}
+
+
+renderCalendar(currentDate);
+updateClock();
+setInterval(updateClock, 1000);
 

@@ -61,6 +61,13 @@
                 <label for="endDate">Дата конца:</label>
                 <input type="date" name="end_date" id="endDate" required>
 
+                <label for="startTime">Время начала:</label>
+                <input type="time" name="start_time" id="startTime" required>
+
+                <label for="endTime">Время окончания:</label>
+                <input type="time" name="end_time" id="endTime" required>
+                
+
                 <button type="submit">Сохранить</button>
             </form>
 
