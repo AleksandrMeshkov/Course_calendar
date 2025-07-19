@@ -1,4 +1,5 @@
 <?php
 
-$conn = new mysqli("localhost","root","","course_calendar");
+$username = "root";
+$conn = new mysqli("localhost", $username, "", "course_calendar");
 $conn->set_charset("utf8mb4");

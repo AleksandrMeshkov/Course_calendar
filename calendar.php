@@ -6,7 +6,7 @@ $successMsg = '';
 $errorMsg = '';
 $eventsFromDB = [];
 
-//  Handle Add Appointment
+// Handle Add Appointment
 if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST['action'] ?? '') === "add") {
     $course      = trim($_POST["course_name"] ?? '');
     $instructor  = trim($_POST["instructor_name"] ?? '');
@@ -77,9 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST['action'] ?? '') === "delet
 // Success & Error Messages
 if (isset($_GET["success"])) {
     $successMsg = match ($_GET["success"]) {
-        '1' => "✅ Appointment added successfully",
-        '2' => "✅ Appointment updated successfully",
-        '3' => "🗑️ Appointment deleted successfully",
+        '1' => "✅ Встреча успешно добавлена",
+        '2' => "✅ Встреча успешно обновлена",
+        '3' => "🗑️ Встреча успешно удалена",
         default => ''
     };
 }
